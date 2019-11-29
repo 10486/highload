@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  apache:
+    image: httpd:2.4
+    working_dir: ${APP_PATH_CONTAINER}
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+      - ./httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf
+    depends_on:
+      - php
+
+  nginx:
+    image: nginx:1.13
+    ports:
+      - 80:80
+      - 443:443
+    working_dir: ${APP_PATH_CONTAINER}
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - apache
+
+  php:
+    build:
+      ./php
+    volumes:
+      - ./php/php.ini:/usr/local/etc/php/opcahce.ini
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    volumes:
+      - ${DB_PATH_HOST}:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: qwerty
+      POSTGRES_PASSWORD: supersecret
+      POSTGRES_USER: username
+      POSTGRES_DB: dbname
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8765:8080
+    depends_on:
+      - db
+
+  composer:
+    image: composer:1.6
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    working_dir: ${APP_PATH_CONTAINER}
+    command: composer install
+
+  memcached:
+      image: memcached:1.4
+      ports:
+        - "11212:11211"
