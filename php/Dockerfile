@@ -19,8 +19,6 @@ RUN unzip php7
 
 RUN cd pecl-memcache-php7 
 
-RUN make install 
-
 RUN echo "extension=memcache.so" > /usr/local/etc/php/conf.d/ext-memcache.ini 
 
 RUN rm -rf /tmp/pecl-memcache-php7 php7.zip
