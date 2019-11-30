@@ -1,25 +1,13 @@
 FROM php:7.2-fpm
 RUN apt-get update
 RUN docker-php-ext-install pdo_mysql
-RUN sed -i 's/docker-php-\(ext-$ext.ini\)/\1/' /usr/local/bin/docker-php-ext-install
-
-
-
-# Install memcache extension
-
-RUN set -x
-
-RUN apt-get update && apt-get install -y --no-install-recommends unzip libssl-dev libpcre3 libpcre3-dev 
-
-RUN cd /tmp 
-
-RUN curl -sSL -o php7.zip https://github.com/websupport-sk/pecl-memcache/archive/php7.zip 
-
-RUN unzip php7 
-
-RUN cd pecl-memcache-php7 
-
-RUN echo "extension=memcache.so" > /usr/local/etc/php/conf.d/ext-memcache.ini 
-
-RUN rm -rf /tmp/pecl-memcache-php7 php7.zip
+RUN apt-get install git
+RUN apt-get install build-essential pkg-config make git g++ gcc
+RUN apt-get install libmemcached-dev libmsgpack-dev libmsgpackc2
+RUN git clone --depth 1 https://github.com/php-memcached-dev/php-memcached.git
+RUN cd php-memcached
+RUN phpize
+RUN ./configure
+RUN make
+RUN mv modules/ /usr/local/memcached/
 ADD php.ini /usr/local/etc/php/
