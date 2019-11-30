@@ -15,7 +15,7 @@ RUN apt-get install -y --no-install-recommends \
     docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr && \
     docker-php-ext-install gd mysqli opcache intl
 
-    .....
+    
 
  # Install Memcached
 RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-   dev/php-memcached/archive/php7.tar.gz" && \
