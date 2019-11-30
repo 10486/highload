@@ -32,7 +32,7 @@ services:
       - db
 
   db:
-    image: postgres
+    image: mariadb
     volumes:
       - ./mysql:/var/lib/mysql
     environment:
