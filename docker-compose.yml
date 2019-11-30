@@ -57,8 +57,12 @@ services:
       - ./laravel:/var/www/html
     working_dir: /var/www/html
     command: composer install
-
-  memcached:
-      image: memcached:1.4
-      ports:
-        - "11212:11211"
+  redis:
+    image: redis
+    restart: always
+    volumes:
+      - ./storage/redis/data:/data
+    ports:
+      - 6379:6379
+    logging:
+      driver: none
