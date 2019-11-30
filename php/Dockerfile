@@ -7,7 +7,7 @@ RUN apt-get install -y --no-install-recommends \
     libz-dev \
     libpq-dev \
     libjpeg-dev \
-    libpng12-dev \
+    libpng-dev \
     libfreetype6-dev \
     libicu-dev \
     libssl-dev \
