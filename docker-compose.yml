@@ -56,7 +56,7 @@ services:
     volumes:
       - ./laravel:/var/www/html
     working_dir: /var/www/html
-    command: composer install
+    command: composer require predis/predis
   redis:
     image: redis
     restart: always
