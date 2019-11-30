@@ -1,7 +1,9 @@
 FROM php:7.2-fpm
 RUN apt-get update
 RUN docker-php-ext-install pdo_mysql
-RUN apt-get install -y php-memcached 
+RUN apt-get update && apt-get install -y libz-dev libmemcached-dev
+RUN pecl install memcached
+RUN echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini
 RUN apt-get install -y --no-install-recommends \
     curl \
     libmemcached-dev \
