@@ -19,8 +19,6 @@ RUN unzip php7
 
 RUN cd pecl-memcache-php7 
 
-RUN ./configure --with-php-config=/usr/local/bin/php-config 
-
 RUN make 
 
 RUN make install 
