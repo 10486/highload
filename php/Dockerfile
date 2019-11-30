@@ -7,27 +7,27 @@ RUN sed -i 's/docker-php-\(ext-$ext.ini\)/\1/' /usr/local/bin/docker-php-ext-ins
 
 # Install memcache extension
 
-RUN set -x \
+RUN set -x
 
-    && apt-get update && apt-get install -y --no-install-recommends unzip libssl-dev libpcre3 libpcre3-dev \
+RUN apt-get update && apt-get install -y --no-install-recommends unzip libssl-dev libpcre3 libpcre3-dev 
 
-    && cd /tmp \
+RUN cd /tmp 
 
-    && curl -sSL -o php7.zip https://github.com/websupport-sk/pecl-memcache/archive/php7.zip \
+RUN curl -sSL -o php7.zip https://github.com/websupport-sk/pecl-memcache/archive/php7.zip 
 
-    && unzip php7 \
+RUN unzip php7 
 
-    && cd pecl-memcache-php7 \
+RUN cd pecl-memcache-php7 
 
-    && /usr/local/bin/phpize \
+RUN /usr/local/bin/phpize 
 
-    && ./configure --with-php-config=/usr/local/bin/php-config \
+RUN ./configure --with-php-config=/usr/local/bin/php-config 
 
-    && make \
+RUN make 
 
-    && make install \
+RUN make install 
 
-    && echo "extension=memcache.so" > /usr/local/etc/php/conf.d/ext-memcache.ini \
+RUN echo "extension=memcache.so" > /usr/local/etc/php/conf.d/ext-memcache.ini 
 
-    && rm -rf /tmp/pecl-memcache-php7 php7.zip
+RUN rm -rf /tmp/pecl-memcache-php7 php7.zip
 ADD php.ini /usr/local/etc/php/
